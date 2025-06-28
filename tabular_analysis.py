@@ -172,43 +172,6 @@ rfc_y_pred = rfc.predict(x_test)
 model_y_pred = model.predict(x_test) # 테스트데이터 기반 예측 결과 얻기 (이때 반환값은 각 샘플에 대한 클래스별 점수/확률)
 model_y_pred = np.argmax(model_y_pred, axis=1) # 각 샘플별로 가장 확률이 높은 클래스의 인덱스(정수)를 반환하여 실제 클래스번호가 결과값
 
-"""AICE 시험에서는 TestDataset 라벨 부여가 안되어 확인은 불가능하나, 현재 Kaggle 데이터셋은 확인이 가능하니 아래는 성능평가의 내용(참고만 하기)"""
-
-from sklearn.metrics import classification_report, confusion_matrix
-
-# Logistic Regression 모델 성능
-cm = confusion_matrix(y_test, lgr_y_pred)
-sns.heatmap(data=cm, annot=True, fmt='d', cmap='Blues')
-plt.show()
-
-# SGDC Classifier 모델 성능
-cm = confusion_matrix(y_test, sgdc_y_pred)
-sns.heatmap(data=cm, annot=True, fmt='d', cmap='Blues')
-plt.show()
-
-# DecisionTreeClassifier 모델 성능
-cm = confusion_matrix(y_test, dtc_y_pred)
-sns.heatmap(data=cm, annot=True, fmt='d', cmap='Blues')
-plt.show()
-
-# RandomForestClassifier 모델 성능
-cm = confusion_matrix(y_test, rfc_y_pred)
-sns.heatmap(data=cm, annot=True, fmt='d', cmap='Blues')
-plt.show()
-
-# 딥러닝 모델 성능
-cm = confusion_matrix(y_test, model_y_pred)
-sns.heatmap(data=cm, annot=True, fmt='d', cmap='Blues')
-plt.show()
-
-# 테스트 데이터셋 모델 성능 확인 - 안해도 되는 작업
-correct_count = sum(df_test['stroke']==df_test['pred'])
-total_count = len(df_test)
-model_accuracy = correct_count/total_count
-print(f'model_accuracy : {model_accuracy:.2f}')
-
-"""아래부터는 실제 시험에서 제출 시 필요"""
-
 # 모델중에 가장 성능이 좋아보이는 DecisionTreeClassifier의 예측값을 테스트 데이터셋 csv에 추가
 df_test['pred'] = rfc_y_pred
 df_test
